@@ -57,12 +57,29 @@ from rpc.json import updateClient
 
 updateClient(ClientConnect)
 client = ClientConnect("http://127.0.0.1:8152")
-print(client.add(1, 2))
+print(client.obj.add(1, 2))  # methods are exposed under the `obj.` prefix
 ```
 
 A `GET /` on a running server returns the exposed function documentation.
+
+## Test
+
+```bash
+python tests/test_rpc.py
+```
+
+Runs a stdlib HTTP server wrapping the parser and drives it with the built-in
+client, covering positional/keyword args, nested calls, server exceptions and
+method-not-found faults. No optional backend required.
+
+To also verify a real backend end to end, run a server with `agreement="flask"`
+(or any other) and call it with `ClientConnect`.
 
 ## Notes
 
 - The `tcp` (zeroMQ) backend is marked `TODO` in the original source.
 - `core.utils.rpc.rpc` in the main repository is left untouched; this is a copy.
+- `_flask.py` / `_sanic.py` pass `_RPCParser_.obj` as the root object (matching
+  the tornado backend) so `client.obj.<method>` resolves correctly.
+- `_flask.py` falls back to a single threaded process on non-Linux platforms,
+  since werkzeug only supports multi-process servers via `fork`.

@@ -15,7 +15,7 @@ _RPCParser_ = None
 
 @app.post("/")
 def runRpcFunction(req):
-    return text(_RPCParser_.serializationResponse(_RPCParser_(_RPCParser_, req.body.decode())))
+    return text(_RPCParser_.serializationResponse(_RPCParser_(_RPCParser_.obj, req.body.decode())))
 
 
 @app.get("/")
