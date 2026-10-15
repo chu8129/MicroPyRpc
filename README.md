@@ -1,9 +1,6 @@
 # rpc-service
 
-Standalone JSON-RPC service, extracted from `core/utils/rpc/rpc` of the
-`aigc_accelerator` project. The original local `core.utils` dependencies
-(`decorator`, `config`, `log`, `common`) are vendored under `rpc/_vendor/`
-so the package runs on its own.
+Standalone JSON-RPC service
 
 ## Layout
 
@@ -76,9 +73,6 @@ To also verify a real backend end to end, run a server with `agreement="flask"`
 (or any other) and call it with `ClientConnect`.
 
 ## Notes
-
-- The `tcp` (zeroMQ) backend is marked `TODO` in the original source.
-- `core.utils.rpc.rpc` in the main repository is left untouched; this is a copy.
 - `_flask.py` / `_sanic.py` pass `_RPCParser_.obj` as the root object (matching
   the tornado backend) so `client.obj.<method>` resolves correctly.
 - `_flask.py` falls back to a single threaded process on non-Linux platforms,
